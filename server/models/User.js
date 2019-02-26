@@ -1,17 +1,17 @@
-const mongoose =require('mongoose');
+const mongoose = require('mongoose');
+// const Schema = mongoose.Schema;
+const { Schema } = mongoose;//ES6
 
 const userSchema = mongoose.Schema({
     // _user_id: {
     //     type:mongoose.Schema.Types.ObjectId,
     //     require:ture
     // },
-    user_email: {
-        type:String,
-        require:ture,
-        unique:ture,
-        lowercase: true,
-        trim:ture
-    },
+    googleID: String,
+    facebookID: String,
+    twitterID: String,
+    linkedinID: String,
+    email: String,
     user_name: {
         type:String,
         require:ture,
@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
         maxlength:20
 
     },
-
+    password: String
 });
 
 module.exports = mongoose.model('User', userSchema);
