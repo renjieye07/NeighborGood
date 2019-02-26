@@ -1,11 +1,6 @@
 # NeighborGood
+NPM note:
+First time users:
+please install npm and run npm install under the project directory in order to install all needed packages.
 
-some comman I used to fix mongodb connection 
-
-
-sudo mongod --repair(mainly this is the comman to fix)
-
-sudo mongod
-
-mongo
-
+the package "nodemon" is optional so it is placed under devdependency
