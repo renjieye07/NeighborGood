@@ -7,6 +7,8 @@ import {
 } from "react-bootstrap";
 import LoaderButton from "../LoaderButton/LoaderButton";
 import "./Signup.css";
+import {Divider} from 'semantic-ui-react'
+import SocialLogin from '../SocialLogin/SocialLogin';
 
 export default class Signup extends Component {
   constructor(props) {
@@ -119,6 +121,11 @@ export default class Signup extends Component {
           text="Signup"
           loadingText="Signing up…"
         />
+        <Divider horizontal>
+          Or
+        </Divider>
+        <SocialLogin/>
+        
       </form>
     );
   }

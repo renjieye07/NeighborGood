@@ -3,6 +3,8 @@ import { Grid, Button } from 'semantic-ui-react';
 import cuid from 'cuid';
 import EventList from '../EventList/EventList';
 import EventForm from '../EventForm/EventForm';
+import SideMenu from '../../nav/SideMenu/SideMenu';
+import Filter from '../../nav/Filter/Filter';
 
 const eventsDashboard = [
   {
@@ -117,15 +119,19 @@ class EventDashboard extends Component {
     const {selectedEvent} = this.state;
     return (
       <Grid>
-        <Grid.Column width={10}>
+        <Grid.Column width={4}>
+          <SideMenu  />
+        </Grid.Column>
+        <Grid.Column width={8}>
           <EventList deleteEvent={this.handleDeleteEvent} events={this.state.events} onEventOpen={this.handleOpenEvent} />
         </Grid.Column>
-        <Grid.Column width={6}>
-          <Button
+        <Grid.Column width={4}>
+        <Filter />
+          {/* <Button
             onClick={this.handleFormOpen}
             positive
             content="Create Event"
-          />
+          /> */}
           {this.state.isOpen && <EventForm updateEvent={this.handleUpdateEvent} selectedEvent={selectedEvent} handleCancel={this.handleCancel} createEvent={this.handleCreateEvent} />}
         </Grid.Column>
       </Grid>

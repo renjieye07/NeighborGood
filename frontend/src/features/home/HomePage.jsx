@@ -13,7 +13,7 @@ const HomePage = ({history}) => {
             />
             <div className="content">NeighborGood</div>
           </h1>
-          <h2>Enjoy the smart and convenience Community</h2>
+          <h2>Enjoy the smart and convenient Community</h2>
           <div onClick={() => history.push('/Signup')} className="ui huge white inverted button">
             Get Started
             <i className="right arrow icon" />
@@ -21,21 +21,7 @@ const HomePage = ({history}) => {
         </div>
       </div>
       <div style={{ textAlign: 'center' }}>
-        Icons made by{' '}
-        <a href="http://www.freepik.com" title="Freepik">
-          Freepik
-        </a>{' '}
-        from{' '}
-        <a href="https://www.flaticon.com/" title="Flaticon">
-          www.flaticon.com
-        </a>{' '}
-        is licensed by{' '}
-        <a
-          href="http://creativecommons.org/licenses/by/3.0/"
-          title="Creative Commons BY 3.0"
-        >
-          CC 3.0 BY
-        </a>
+      
       </div>
     </div>
   );
