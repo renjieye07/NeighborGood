@@ -10,6 +10,7 @@ import PeopleDashboard from '../../features/user/PeopleDashboard/PeopleDashboard
 import EventDetailedPage from '../../features/event/EventDetailed/EventDetailedPage';
 import HomePage from '../../features/home/HomePage';
 import Signup from '../../features/Signup/Signup';
+import SalesDashboard from '../../features/Sales/SalesDashboard/SalesDashboard';
 
 class App extends Component {
   render() {
@@ -28,6 +29,7 @@ class App extends Component {
                 <Switch>
                   <Route path="/Signup" component={Signup} />
                   <Route path="/events" component={EventDashboard} />
+                  <Route path="/sales" component={SalesDashboard} />
                   <Route path="/event/:id" component={EventDetailedPage} />
                   <Route path="/people" component={PeopleDashboard} />
                   <Route path="/profile/:id" component={UserDetailedPage} />
