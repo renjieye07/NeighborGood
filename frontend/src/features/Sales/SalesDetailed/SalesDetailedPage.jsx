@@ -1,8 +1,8 @@
 import React from 'react'
 import { Grid } from 'semantic-ui-react'
-import EventDetailedHeader from './EventDetailedHeader'
-import EventDetailedInfo from './EventDetailedInfo'
-import EventDetailedSidebar from './EventDetailedSidebar'
+import EventDetailedHeader from './SalesDetailedHeader'
+import EventDetailedInfo from './SalesDetailedInfo'
+import EventDetailedSidebar from './SalesDetailedSidebar'
 
 const EventDetailedPage = () => {
   return (

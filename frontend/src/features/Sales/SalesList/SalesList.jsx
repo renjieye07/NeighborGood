@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import EventListItem from './SalesListItem';
+import SaleListItem from './SalesListItem';
 
 class EventList extends Component {
   render() {
-    const { events, onEventOpen, deleteEvent } = this.props;
+    const { events: sales, onEventOpen, deleteEvent } = this.props;
     return (
       <div>
         <h1>Sales List</h1>
-        {events.map(event => (
-          <EventListItem
+        {sales.map(event => (
+          <SaleListItem
             key={event.id}
             event={event}
             onEventOpen={onEventOpen}

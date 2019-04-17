@@ -7,7 +7,7 @@ import EventForm from '../SalesForm/SalesForm';
 const eventsDashboard = [
   {
     id: '1',
-    title: 'Trip to Tower of London',
+    title: 'Used Bike',
     date: '2018-03-27',
     category: 'culture',
     description:
@@ -31,7 +31,7 @@ const eventsDashboard = [
   },
   {
     id: '2',
-    title: 'Trip to Punch and Judy Pub',
+    title: 'Selling brand new sofa',
     date: '2018-03-28',
     category: 'drinks',
     description:
@@ -121,11 +121,7 @@ class SalesDashboard extends Component {
           <EventList deleteEvent={this.handleDeleteEvent} events={this.state.events} onEventOpen={this.handleOpenEvent} />
         </Grid.Column>
         <Grid.Column width={6}>
-          <Button
-            onClick={this.handleFormOpen}
-            positive
-            content="Create Event"
-          />
+       
           {this.state.isOpen && <EventForm updateEvent={this.handleUpdateEvent} selectedEvent={selectedEvent} handleCancel={this.handleCancel} createEvent={this.handleCreateEvent} />}
         </Grid.Column>
       </Grid>
