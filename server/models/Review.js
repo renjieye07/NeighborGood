@@ -1,28 +1,16 @@
 const mongoose =require('mongoose');
 
 const reviewSchema = mongoose.Schema({
-    // _review_id: {
-    //     type:mongoose.Schema.Types.ObjectId, 
-    //     require:ture
-    // },
-    // user_name: String
-    user_review: {
-        type:String,
-        minlength:8,
-        maxlength:5000,
-        require:ture
-    },
-    review_data:{
-        type:Date,
-        default:Datenow
-    },
-    review_like: Number,
-    review_dislike:Number,
+    // _review_id: mongoose.Schema.Types.ObjectId,
+    user_name: String,
+    user_review: String,
+    review_data:BSON,
+    review_like: number,
+    review_dislike:number,
 
     user_id:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
-        // require:ture
+        ref:'User'
     }
 });
 
