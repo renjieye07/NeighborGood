@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./Login.css";
+import SocialLogin from "../SocialLogin/SocialLogin";
+import { Divider } from "semantic-ui-react";
 
 export default class Login extends Component {
   constructor(props) {
@@ -20,11 +22,11 @@ export default class Login extends Component {
     this.setState({
       [event.target.id]: event.target.value
     });
-  }
+  };
 
   handleSubmit = event => {
     event.preventDefault();
-  }
+  };
 
   render() {
     return (
@@ -55,6 +57,9 @@ export default class Login extends Component {
           >
             Login
           </Button>
+
+          <Divider horizontal>Or</Divider>
+          <SocialLogin />
         </form>
       </div>
     );

@@ -7,8 +7,8 @@ import {
 } from "react-bootstrap";
 import LoaderButton from "../LoaderButton/LoaderButton";
 import "./Signup.css";
-import {Divider} from 'semantic-ui-react'
-import SocialLogin from '../SocialLogin/SocialLogin';
+import { Divider } from "semantic-ui-react";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -40,7 +40,7 @@ export default class Signup extends Component {
     this.setState({
       [event.target.id]: event.target.value
     });
-  }
+  };
 
   handleSubmit = async event => {
     event.preventDefault();
@@ -50,13 +50,13 @@ export default class Signup extends Component {
     this.setState({ newUser: "test" });
 
     this.setState({ isLoading: false });
-  }
+  };
 
   handleConfirmationSubmit = async event => {
     event.preventDefault();
 
     this.setState({ isLoading: true });
-  }
+  };
 
   renderConfirmationForm() {
     return (
@@ -121,11 +121,8 @@ export default class Signup extends Component {
           text="Signup"
           loadingText="Signing up…"
         />
-        <Divider horizontal>
-          Or
-        </Divider>
-        <SocialLogin/>
-        
+        <Divider horizontal>Or</Divider>
+        <SocialLogin />
       </form>
     );
   }
