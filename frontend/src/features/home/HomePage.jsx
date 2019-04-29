@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-const HomePage = ({history}) => {
+const HomePage = ({ history }) => {
   return (
     <div>
       <div className="ui inverted vertical masthead center aligned segment">
@@ -14,15 +14,16 @@ const HomePage = ({history}) => {
             <div className="content">NeighborGood</div>
           </h1>
           <h2>Enjoy the smart and convenient Community</h2>
-          <div onClick={() => history.push('/Signup')} className="ui huge white inverted button">
+          <div
+            onClick={() => history.push("/Signup")}
+            className="ui huge inverted button"
+          >
             Get Started
             <i className="right arrow icon" />
           </div>
         </div>
       </div>
-      <div style={{ textAlign: 'center' }}>
-      
-      </div>
+      <div style={{ textAlign: "center" }} />
     </div>
   );
 };

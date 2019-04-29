@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 // import "./index.css";
 // import App from "./app/layout/App";
 // import registerServiceWorker from "./registerServiceWorker";
-// import { configureStore } from "./app/store/configureStore";
+import { configureStore } from "./app/store/configureStore";
 import ScrollToTop from "../src/app/common/util/ScrollToTop";
 // // import reduxThunk from "redux-thunk";
 // // import { createStore, applyMiddleware } from "redux";
@@ -54,7 +54,7 @@ import reducers from "../src/app/reducers";
 
 //reducer
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
-
+//const store = configureStore();
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>

@@ -9,131 +9,141 @@ import LoaderButton from "../LoaderButton/LoaderButton";
 import "./Signup.css";
 import { Divider } from "semantic-ui-react";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import { register } from "../user/userFunctions";
 
-export default class Signup extends Component {
-  constructor(props) {
-    super(props);
+class Signup extends Component {
+  // constructor(props) {
+  //   super(props);
 
+  //   this.state = {
+  //     isLoading: false,
+  //     email: "",
+  //     password: "",
+  //     confirmPassword: "",
+  //     confirmationCode: "",
+  //     newUser: null
+  //   };
+  // }
+  constructor() {
+    super();
     this.state = {
-      isLoading: false,
+      // first_name: "",
+      // last_name: "",
+      user_name: "",
       email: "",
       password: "",
-      confirmPassword: "",
-      confirmationCode: "",
-      newUser: null
+      neighborhhod_zipCode: "",
+      neighborhhod_city: ""
     };
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
   }
 
-  validateForm() {
-    return (
-      this.state.email.length > 0 &&
-      this.state.password.length > 0 &&
-      this.state.password === this.state.confirmPassword
-    );
-  }
+  onSubmit(e) {
+    e.preventDefault();
 
-  validateConfirmationForm() {
-    return this.state.confirmationCode.length > 0;
-  }
+    const user = {
+      user_name: this.state.user_name,
+      email: this.state.email,
+      password: this.state.password,
+      neighborhhod_zipCode: this.state.neighborhhod_zipCode,
+      neighborhhod_city: this.state.neighborhhod_city
+    };
 
-  handleChange = event => {
-    this.setState({
-      [event.target.id]: event.target.value
+    register(user).then(res => {
+      this.props.history.push(`/login`);
     });
-  };
-
-  handleSubmit = async event => {
-    event.preventDefault();
-
-    this.setState({ isLoading: true });
-
-    this.setState({ newUser: "test" });
-
-    this.setState({ isLoading: false });
-  };
-
-  handleConfirmationSubmit = async event => {
-    event.preventDefault();
-
-    this.setState({ isLoading: true });
-  };
-
-  renderConfirmationForm() {
-    return (
-      <form onSubmit={this.handleConfirmationSubmit}>
-        <FormGroup controlId="confirmationCode" bsSize="large">
-          <ControlLabel>Confirmation Code</ControlLabel>
-          <FormControl
-            autoFocus
-            type="tel"
-            value={this.state.confirmationCode}
-            onChange={this.handleChange}
-          />
-          <HelpBlock>Please check your email for the code.</HelpBlock>
-        </FormGroup>
-        <LoaderButton
-          block
-          bsSize="large"
-          disabled={!this.validateConfirmationForm()}
-          type="submit"
-          isLoading={this.state.isLoading}
-          text="Verify"
-          loadingText="Verifying…"
-        />
-      </form>
-    );
-  }
-
-  renderForm() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <FormGroup controlId="email" bsSize="large">
-          <ControlLabel>Email</ControlLabel>
-          <FormControl
-            autoFocus
-            type="email"
-            value={this.state.email}
-            onChange={this.handleChange}
-          />
-        </FormGroup>
-        <FormGroup controlId="password" bsSize="large">
-          <ControlLabel>Password</ControlLabel>
-          <FormControl
-            value={this.state.password}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </FormGroup>
-        <FormGroup controlId="confirmPassword" bsSize="large">
-          <ControlLabel>Confirm Password</ControlLabel>
-          <FormControl
-            value={this.state.confirmPassword}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </FormGroup>
-        <LoaderButton
-          block
-          bsSize="large"
-          disabled={!this.validateForm()}
-          type="submit"
-          isLoading={this.state.isLoading}
-          text="Signup"
-          loadingText="Signing up…"
-        />
-        <Divider horizontal>Or</Divider>
-        <SocialLogin />
-      </form>
-    );
   }
 
   render() {
     return (
-      <div className="Signup">
-        {this.state.newUser === null
-          ? this.renderForm()
-          : this.renderConfirmationForm()}
+      <div className="container">
+        <div className="row">
+          <div className="col-md-6 mt-5 mx-auto">
+            <form noValidate onSubmit={this.onSubmit}>
+              <h1 className="h3 mb-3 font-weight-normal">Please Sign Up</h1>
+              <div className="form-group">
+                <label htmlFor="user_name">User Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="user_name"
+                  placeholder="Enter User Name"
+                  value={this.state.user_name}
+                  onChange={this.onChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">Email Address</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  name="email"
+                  placeholder="Enter Email"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  name="password"
+                  placeholder="Enter Password"
+                  value={this.state.password}
+                  onChange={this.onChange}
+                />
+              </div>
+              {/* <div className="form-group">
+                <label htmlFor="neighborhhod_zipCode">Zip Code</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="lneighborhhod_zipCode"
+                  placeholder="Enter Zip Code"
+                  value={this.state.neighborhhod_zipCode}
+                  onChange={this.onChange}
+                />
+              </div> */}
+              <div className="form-group">
+                <label htmlFor="neighborhhod_zipCode">Zip Code</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="neighborhhod_zipCode"
+                  placeholder="Enter Zip Code"
+                  value={this.state.neighborhhod_zipCode}
+                  onChange={this.onChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="neighborhhod_city">City</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="neighborhhod_city"
+                  placeholder="Enter City Name"
+                  value={this.state.neighborhhod_city}
+                  onChange={this.onChange}
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-lg btn-primary btn-block"
+                //style="text-align:center"
+              >
+                Register
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }
 }
+
+export default Signup;

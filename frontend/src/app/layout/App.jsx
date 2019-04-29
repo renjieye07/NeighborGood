@@ -46,14 +46,14 @@ class App extends Component {
               <Route path="/settings" component={SettingsDashboard} />
               <Route path="/sales" component={SaleDashboard} />
               <Route path="/sale/:id" component={SaleDetailedPage} />
+              {/* <Route paht="/createSale" component={SaleForm} /> */}
+              {/* <Route path="/manageSale/:id" component={SaleForm} /> */}
+              {/* <Route path="/losts" component={LostDashboard} />
+              <Route path="/lost/:id" component={LostDetailedPage} /> */}
               {/* <Route paht="/createSale" component={SaleForm} />
               <Route path="/manageSale/:id" component={SaleForm} /> */}
-              <Route path="/losts" component={LostDashboard} />
-              <Route path="/lost/:id" component={LostDetailedPage} />
-              {/* <Route paht="/createSale" component={SaleForm} />
-              <Route path="/manageSale/:id" component={SaleForm} /> */}
-              <Route path="/infors" component={InforDashboard} />
-              <Route path="/infor/:id" component={InforDetailedPage} />
+              {/* <Route path="/infors" component={InforDashboard} />
+              <Route path="/infor/:id" component={InforDetailedPage} /> */}
               {/* <Route paht="/createSale" component={SaleForm} />
               <Route path="/manageSale/:id" component={SaleForm} /> */}
             </Container>
