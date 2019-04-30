@@ -5,26 +5,17 @@ const neighborhoodSchema = mongoose.Schema({
     //     type:mongoose.Schema.Types.ObjectId,
     //     require:ture
     // },
-    neighborhhod_zipCode:{
+    neighborhood_zipCode:{
         type:String,
-        require:ture,
-        unique:ture,
-        minlength:5,
-        maxlength:5
+        require:true,
+        unique:true
     },
     neighborhhod_city:{
         type:mongoose.Schema.Types.ObjectId,
-        require:ture,
-        minlength:3,
-        maxlength:100
+        require:true,
     },
-    neighborhhod_name:{
-        type:String,
-        require:ture,
-        minlength:3,
-        maxlength:100
-    },
-    neghors:Number //may need a function to calculate the total number of users in the Neighborhhod
+    neighborhood_name:String,
+    neighors:Number
 });
 
-module.exports = mongoose.model('Neighborhhod',neighborhhodSchema);
+module.exports = mongoose.model('Neighborhood',neighborhhodSchema);
