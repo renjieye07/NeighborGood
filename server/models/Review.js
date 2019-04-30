@@ -1,4 +1,6 @@
 const mongoose =require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+
 
 const reviewSchema = mongoose.Schema({
     // _review_id: {
@@ -10,14 +12,21 @@ const reviewSchema = mongoose.Schema({
         type:String,
         minlength:8,
         maxlength:5000,
-        require:ture
+        trim:true,
+        require:true
     },
     review_data:{
         type:Date,
-        default:Datenow
+        default:Date.now()
     },
-    review_like: Number,
-    review_dislike:Number,
+    review_like: {
+        type: Number,
+        default: 0
+      },
+    review_dislike: {
+        type: Number,
+        default: 0
+      },
 
     user_id:{
         type:mongoose.Schema.Types.ObjectId,
@@ -25,5 +34,5 @@ const reviewSchema = mongoose.Schema({
         // require:ture
     }
 });
-
+reviewSchema.plugin(uniqueValidator);
 module.exports = mongoose.model('Review', reviewSchema);

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const userprofileSchema = mongoose.Schema({
     user_status: Boolean,

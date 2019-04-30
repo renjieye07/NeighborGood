@@ -1,26 +1,24 @@
 const mongoose =require('mongoose');
+//unique validator is a npm pakege that needs to install for 'unique'
+const uniqueValidator = require('mongoose-unique-validator');
 
 const postSchema = mongoose.Schema({
-    // post_id: {
-    //     type:mongoose.Schema.Types.ObjectId,
-    //     require:true
-    // },
     post_type:{
         type:String,
         enum:['trade','infor','help','donate','event'],
-        require:ture
+        require:true
     },
-    post_data:{
+    post_date:{
         type:Date,
         default:Date.now,
-        require:ture
     },
-    post_joined_user:[{
+    participants:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     }],//list of use id 
-    post_infor:{
+    description:{
         type:String,
+        trim:true,
         minlength:8,
         maxlength:10000,
     },
@@ -30,26 +28,36 @@ const postSchema = mongoose.Schema({
     }],//list of photo id
     post_title:{
         type:String,
-        require:ture,
+        require:true,
+        trim:true,
         minlength:8,
         maxlength:200,
     },
-    post_like:Number,
-    post_dislike:Number,
+    post_like:{
+        type: Number,
+        default: 0
+      },
+    post_dislike:{
+        type: Number,
+        default: 0
+      },
     post_active:{
         type:Boolean,
-        default:ture
+        default:true
     },
-    post_host:{//the owner of the post
+    post_owner:{//the owner of the post
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
-        require:ture
+        require:true
     },
 
-    comment_user_id:[{
+    review:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
-    }]//list of user id who comment on the post??? 
+        ref:'User',
+        commentString:String
+        }
+   ],//list of user id who comment on the post??? 
+   event_date: Date
 });
-
-module.exports = mongoose.model('Review', reviewSchema);
+postSchema.plugin(uniqueValidator);//plugin has to be here after schema set up
+module.exports = mongoose.model('Post', postSchema);

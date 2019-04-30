@@ -1,9 +1,12 @@
 const mongoose =require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+
 
 const photoSchema = mongoose.Schema({
     // _photo_id: mongoose.Schema.Types.ObjectId,
     photo_title:{
         type:String,
+        trim:true,
         minlength:1,
         maxlength:50
     },
@@ -17,5 +20,5 @@ const photoSchema = mongoose.Schema({
         ref:'User'
     }
 });
-
+photoSchema.plugin(uniqueValidator);
 module.exports = mongoose.model('Photo', photoSchema);
