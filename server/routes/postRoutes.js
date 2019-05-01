@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-const requireLogin = require('../middleware/requireLogin');
 //const requireNeighborhood = require('../middleware/requireNeighborhood');
 const auth = require('../middleware/auth');
-const Post = mongoose.model('posts');
+const Post = mongoose.model('Post');
 
 module.exports = app => {
   app.post('/api/posts', auth, async (req, res) => {

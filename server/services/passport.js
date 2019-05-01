@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 
 //create user model class
-const User = mongoose.model('users');
+const User = mongoose.model('User');
 
 //bcrypt saltrounds
 // const saltRounds = 10;
