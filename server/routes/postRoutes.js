@@ -18,7 +18,7 @@ module.exports = app => {
       });
       try {
         await post.save();
-        console.log(req.post);
+        console.log(req.user);
       } catch (err) {
         res.status(422).send(err);
       }

@@ -10,7 +10,7 @@ const postSchema = mongoose.Schema({
   },
   post_date: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   },
   participants: [
     {
