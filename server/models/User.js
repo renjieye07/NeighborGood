@@ -51,7 +51,8 @@ const userSchema = mongoose.Schema({
     // require:true,
     minlength: 5,
     maxlength: 5,
-    trim: true
+    trim: true,
+    default: '00000'
   },
   neighborhood_city: {
     // type:mongoose.Schema.Types.ObjectId,
@@ -67,7 +68,7 @@ const userSchema = mongoose.Schema({
 
   registerDate: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   },
 
   // lastLoginDate:Date,

@@ -14,9 +14,9 @@ const reviewSchema = mongoose.Schema({
     trim: true,
     require: true
   },
-  review_date: {
+  review_data: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   },
   review_like: {
     type: Number,

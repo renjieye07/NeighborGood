@@ -15,7 +15,11 @@ module.exports = app => {
     '/auth/google/callback',
     passport.authenticate('google'),
     (req, res) => {
-      res.redirect('/events');
+      if (req.user.neighborhood_zipCode) {
+        res.redirect('/events');
+      } else {
+        res.redirect('./'); //redirecting to user profile page
+      }
     }
   );
 
@@ -26,7 +30,11 @@ module.exports = app => {
     '/auth/facebook/callback',
     passport.authenticate('facebook'),
     (req, res) => {
-      res.redirect('/events');
+      if (req.user.neighborhood_zipCode) {
+        res.redirect('/events');
+      } else {
+        res.redirect('./'); //redirecting to user profile page
+      }
     }
   );
 
@@ -42,7 +50,11 @@ module.exports = app => {
     '/auth/twitter/callback',
     passport.authenticate('twitter'),
     (req, res) => {
-      res.redirect('/events');
+      if (req.user.neighborhood_zipCode) {
+        res.redirect('/events');
+      } else {
+        res.redirect('./'); //redirecting to user profile page
+      }
     }
   );
 
@@ -53,7 +65,11 @@ module.exports = app => {
     '/auth/linkedin/callback',
     passport.authenticate('linkedin'),
     (req, res) => {
-      res.redirect('/events');
+      if (req.user.neighborhood_zipCode) {
+        res.redirect('/events');
+      } else {
+        res.redirect('./'); //redirecting to user profile page
+      }
     }
   );
 

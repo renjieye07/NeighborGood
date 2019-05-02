@@ -5,7 +5,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 const postSchema = mongoose.Schema({
   post_type: {
     type: String,
-    enum: ['trade', 'infor', 'help', 'donate', 'event'],
+    enum: ['trade', 'info', 'help', 'donate', 'event'],
     require: true
   },
   post_date: {
