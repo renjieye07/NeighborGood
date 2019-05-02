@@ -10,7 +10,7 @@ const keys = require('../config/keys');
 const mongoose = require('mongoose');
 
 //create user model class
-const User = mongoose.model('users');
+const User = mongoose.model('User');
 
 //bcrypt saltrounds
 const saltRounds = 10;
