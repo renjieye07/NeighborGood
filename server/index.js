@@ -8,7 +8,7 @@ const keys = require('./config/keys');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 
-require('./models/User');
+const User = require('./models/User');
 require('./models/Post');
 require('./models/Review');
 require('./services/passport');
@@ -46,7 +46,7 @@ require('./routes/postRoutes')(app);
 require('./routes/reviewRoutes')(app);
 app.use(express.json()); //expreess takes incoming data to an obj
 
-//miantanice
+//maintenance
 // app.use((req,res,next)=>{
 //   res.status(503).send('Server is currently down, check back soon!!')
 // })
