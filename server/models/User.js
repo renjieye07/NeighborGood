@@ -32,17 +32,8 @@ const userSchema = mongoose.Schema({
     maxlength: 20
   },
   password: {
-    type: String,
+    type: String
     // require:true,
-    trim: true,
-    minlength: 8,
-    maxlength: 30
-    //may not need validate, bacase the password should hash before save to database
-    // validate(password){
-    //     if(!){
-    //       throw new Error('password has to contain both lower upper case, and numbers')
-    //     }
-    // }
   },
   user_image: String,
 
@@ -85,9 +76,10 @@ const userSchema = mongoose.Schema({
 
 //make the relationship between user and post
 userSchema.virtual('posts', {
-  ref: 'Post', // 'Post' should be the same as module.exports
-  localField: '_id',
-  foreignField: 'post_owner'
+  //'posts' is just the name a want i make in this function
+  ref: 'Post', // 'Post' should be the same as module.exports ??
+  localField: '_id', //
+  foreignField: 'post_owner' //'post_owner' is the field i defin in the post schema
 });
 
 //this mothed delete the password and tokens before sending back to the clien side

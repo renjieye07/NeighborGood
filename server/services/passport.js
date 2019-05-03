@@ -49,10 +49,7 @@ passport.use(
         //create a new user, then save the data to the database
         const user = await new User({
           googleID: profile.id,
-          username: {
-            familyName: profile.name.familyName,
-            givenName: profile.name.givenName
-          },
+          username: profile.name.givenName + ' ' + profile.name.familyName,
           imageURL: profile.photos[0].value,
           email: profile.emails[0].value,
           gender: profile.gender
@@ -83,10 +80,7 @@ passport.use(
       } else {
         const user = await new User({
           facebookID: profile.id,
-          username: {
-            familyName: profile.name.familyName,
-            givenName: profile.name.givenName
-          },
+          username: profile.name.givenName + ' ' + profile.name.familyName,
           imageURL: profile.photos[0].value,
           email: profile.emails[0].value,
           gender: profile.gender
@@ -115,10 +109,7 @@ passport.use(
       } else {
         const user = await new User({
           twitterID: profile.id,
-          username: {
-            familyName: profile.displayName.split(' ')[1],
-            givenName: profile.displayName.split(' ')[0]
-          },
+          username: profile.name.givenName + ' ' + profile.name.familyName,
           imageURL: profile.photos[0].value
         }).save();
         user.generateAuthToken();
@@ -145,10 +136,7 @@ passport.use(
       } else {
         const user = await new User({
           linkedinID: profile.id,
-          username: {
-            familyName: profile.name.familyName,
-            givenName: profile.name.givenName
-          },
+          username: profile.name.givenName + ' ' + profile.name.familyName,
           imageURL: profile.photos[0].value,
           email: profile.emails[0].value
         }).save();
