@@ -1,54 +1,75 @@
-const passport = require("passport");
+const passport = require('passport');
 
 //exporting function to express app
 module.exports = app => {
   //add google oauth route handler
   app.get(
-    "/auth/google",
+    '/auth/google',
     //google oauth has a internal identifier call "google" for anonymous function
-    passport.authenticate("google", {
-      scope: ["profile", "email"] //declaring what properties are retrieving
+    passport.authenticate('google', {
+      scope: ['profile', 'email'] //declaring what properties are retrieving
     })
   );
   //callback
   app.get(
-    "/auth/google/callback",
-    passport.authenticate("google"),
+    '/auth/google/callback',
+    passport.authenticate('google'),
     (req, res) => {
-      res.redirect("/events");
+      if (req.user.neighborhood_zipCode) {
+        res.redirect('/events');
+      } else {
+        res.redirect('./'); //redirecting to user profile page
+      }
     }
   );
 
   //add facebook oauth route handler
-  app.get("/auth/facebook", passport.authenticate("facebook"));
+  app.get('/auth/facebook', passport.authenticate('facebook'));
 
   app.get(
-    "/auth/facebook/callback",
-    passport.authenticate("facebook"),
+    '/auth/facebook/callback',
+    passport.authenticate('facebook'),
     (req, res) => {
-      res.redirect("/events");
+      if (req.user.neighborhood_zipCode) {
+        res.redirect('/events');
+      } else {
+        res.redirect('./'); //redirecting to user profile page
+      }
     }
   );
 
   //add twitter oauth route handler
-  app.get("/auth/twitter", passport.authenticate("twitter"));
+  app.get(
+    '/auth/twitter',
+    passport.authenticate('twitter', {
+      scope: ['profile', 'email']
+    })
+  );
 
   app.get(
-    "/auth/twitter/callback",
-    passport.authenticate("twitter"),
+    '/auth/twitter/callback',
+    passport.authenticate('twitter'),
     (req, res) => {
-      res.redirect("/events");
+      if (req.user.neighborhood_zipCode) {
+        res.redirect('/events');
+      } else {
+        res.redirect('./'); //redirecting to user profile page
+      }
     }
   );
 
   //add linkedin oauth route handler
-  app.get("/auth/linkedin", passport.authenticate("linkedin"));
+  app.get('/auth/linkedin', passport.authenticate('linkedin'));
 
   app.get(
-    "/auth/linkedin/callback",
-    passport.authenticate("linkedin"),
+    '/auth/linkedin/callback',
+    passport.authenticate('linkedin'),
     (req, res) => {
-      res.redirect("/events");
+      if (req.user.neighborhood_zipCode) {
+        res.redirect('/events');
+      } else {
+        res.redirect('./'); //redirecting to user profile page
+      }
     }
   );
 
@@ -61,12 +82,12 @@ module.exports = app => {
   // });
 
   //logout
-  app.get("/api/logout", (req, res) => {
+  app.get('/api/logout', (req, res) => {
     req.logout();
-    res.redirect("/");
+    res.redirect('/');
   });
 
-  app.get("/api/current_user", (req, res) => {
+  app.get('/api/current_user', (req, res) => {
     res.send(req.user);
   });
 };

@@ -8,9 +8,10 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 const keys = require('../config/keys');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 //create user model class
-const User = mongoose.model('users');
+const User = mongoose.model('User');
 
 //bcrypt saltrounds
 // const saltRounds = 10;
@@ -33,6 +34,7 @@ passport.use(
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
       callbackURL: '/auth/google/callback',
+      profileFields: ['id', 'name', 'emails', 'photos', 'gender'],
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
@@ -40,15 +42,22 @@ passport.use(
       const existingUser = await User.findOne({ googleID: profile.id });
       if (existingUser) {
         //existing user found
-        console.log(profile);
+        const token = await existingUser.generateAuthToken();
+        console.log('user profile: ' + profile);
         done(null, existingUser);
       } else {
         //create a new user, then save the data to the database
         const user = await new User({
           googleID: profile.id,
-          username: profile.name
-          //email: profile.emails[0].value
+          username: {
+            familyName: profile.name.familyName,
+            givenName: profile.name.givenName
+          },
+          imageURL: profile.photos[0].value,
+          email: profile.emails[0].value,
+          gender: profile.gender
         }).save();
+        await user.generateAuthToken();
         done(null, user);
       }
     }
@@ -62,16 +71,27 @@ passport.use(
       clientID: keys.facebookClientID,
       clientSecret: keys.facebookSecret,
       callbackURL: '/auth/facebook/callback',
-      profileFields: ['id', 'email', 'name', 'gender', 'displayName'],
+      profileFields: ['id', 'email', 'name', 'gender', 'picture'],
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
       const existingUser = await User.findOne({ facebookID: profile.id });
+      await existingUser.generateAuthToken();
       if (existingUser) {
         console.log('profile', profile);
         done(null, existingUser);
       } else {
-        const user = await new User({ facebookID: profile.id }).save();
+        const user = await new User({
+          facebookID: profile.id,
+          username: {
+            familyName: profile.name.familyName,
+            givenName: profile.name.givenName
+          },
+          imageURL: profile.photos[0].value,
+          email: profile.emails[0].value,
+          gender: profile.gender
+        }).save();
+        await user.generateAuthToken();
         done(null, user);
       }
     }
@@ -89,10 +109,19 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       const existingUser = await User.findOne({ twitterID: profile.id });
       if (existingUser) {
-        console.log('profile', profile);
+        console.log(profile);
+        existingUser.generateAuthToken();
         done(null, existingUser);
       } else {
-        const user = await new User({ twitterID: profile.id }).save();
+        const user = await new User({
+          twitterID: profile.id,
+          username: {
+            familyName: profile.displayName.split(' ')[1],
+            givenName: profile.displayName.split(' ')[0]
+          },
+          imageURL: profile.photos[0].value
+        }).save();
+        user.generateAuthToken();
         done(null, user);
       }
     }
@@ -111,9 +140,19 @@ passport.use(
       const existingUser = await User.findOne({ linkedinID: profile.id });
       if (existingUser) {
         console.log('profile', profile);
+        existingUser.generateAuthToken();
         done(null, existingUser);
       } else {
-        const user = await new User({ linkedinID: profile.id }).save();
+        const user = await new User({
+          linkedinID: profile.id,
+          username: {
+            familyName: profile.name.familyName,
+            givenName: profile.name.givenName
+          },
+          imageURL: profile.photos[0].value,
+          email: profile.emails[0].value
+        }).save();
+        user.generateAuthToken();
         done(null, user);
       }
     }
