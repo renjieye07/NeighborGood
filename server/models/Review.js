@@ -30,7 +30,7 @@ const reviewSchema = mongoose.Schema({
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
-    // require:ture
+    // require:true
   }
 });
 reviewSchema.plugin(uniqueValidator);
