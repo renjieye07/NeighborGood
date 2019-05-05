@@ -1,41 +1,64 @@
 const mongoose = require('mongoose');
+const requireLogin = require('../middleware/requireLogin');
 //const requireNeighborhood = require('../middleware/requireNeighborhood');
-const auth = require('../middleware/auth');
+// const auth = require('../middleware/auth');
 const Post = mongoose.model('Post');
 
 module.exports = app => {
-  app.post('/api/posts', auth, async (req, res) => {
-    const { title, post_type, description, event_date } = req.body;
+  app.post('/api/newPost', requireLogin, async (req, res) => {
+    const {
+      post_title,
+      post_type,
+      description,
+      event_date,
+      place,
+      trade_price
+    } = req.body;
 
     if (post_type == 'event') {
       const post = new Post({
-        title,
+        post_title,
         post_type,
         description,
         event_date,
+        place,
         owner: req.user.id,
         post_date: Date.now()
       });
       try {
         await post.save();
-        console.log(req.user);
+        done();
+        console.log(req.post);
       } catch (err) {
-        res.status(422).send(err);
+        console.log(err);
       }
-    } else if (
-      post_type == 'info' ||
-      post_type == 'help' ||
-      post_type == 'donation'
-    ) {
+    } else if (post_type == 'info') {
       const post = new Post({
-        title,
+        post_title,
         post_type,
         description,
-        owner: req.user.id,
+        post_owner: req.user.id,
         post_date: Date.now()
       });
       try {
         await post.save();
+        done();
+      } catch (err) {
+        console.log(err);
+      }
+    } else if (post_type == 'trade') {
+      const post = new Post({
+        post_title,
+        post_type,
+        description,
+        trade_price,
+        place,
+        post_owner: req.user.id,
+        post_date: Date.now()
+      });
+      try {
+        await post.save();
+        done();
       } catch (err) {
         res.status(422).send(err);
       }

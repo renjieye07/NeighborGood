@@ -1,6 +1,4 @@
-import { NavLink, Link, withRouter } from 'react-router-dom';
-import SignedOutMenu from '../Menus/SignedOutMenu';
-import SignedInMenu from '../Menus/SignedInMenu';
+import { Link } from 'react-router-dom';
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -10,9 +8,10 @@ import {
   Image,
   Container,
   Button,
-  Icon,
   Input
 } from 'semantic-ui-react';
+
+//import {helloWorld} from '../../../actions/index';
 
 class NavBar extends Component {
   renderContent() {
@@ -39,7 +38,7 @@ class NavBar extends Component {
             {/* <Icon />
             name
             <Icon /> */}
-            <Image avatar spaced="right" src="/assets/user.png" />
+            <Image avatar spaced="right" src={this.props.auth.user_image} />
             <Dropdown pointing="top left" text={this.props.auth.user_name}>
               <Dropdown.Menu>
                 <Dropdown.Item text="Create Event" icon="plus" />
@@ -57,6 +56,7 @@ class NavBar extends Component {
             <Button as="a" href="/api/logout">
               Log out
             </Button>
+            {/* <Button onClick={this.HelloWorld.bind()}>Hello world</Button> */}
           </Menu.Item>
         );
     }
@@ -67,7 +67,7 @@ class NavBar extends Component {
     return (
       <Menu fixed="top" inverted>
         <Container>
-          <Menu.Item as={Link} to={this.props.auth ? '/events' : '/'} header>
+          <Menu.Item as={Link} to={this.props.auth ? '/dashboard' : '/'} header>
             {/* <img src="/assets/logo.png" alt="logo" /> */}
             NeighborGood
           </Menu.Item>
@@ -82,8 +82,12 @@ class NavBar extends Component {
   }
 }
 
-function mapStateToProps({ auth }) {
-  return { auth };
-}
+// function mapStateToProps({ auth }) {
+//   return { auth };
+// }
+
+export const mapStateToProps = state => ({
+  auth: state.auth
+});
 
 export default connect(mapStateToProps)(NavBar);

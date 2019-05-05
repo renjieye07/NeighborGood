@@ -3,12 +3,12 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "../reducers/index";
 
 export const configureStore = preloadedState => {
-  const middlewares = [];
-  const middlewareEnhancer = applyMiddleware(...middlewares);
+  // const middlewares = [];
+  // const middlewareEnhancer = applyMiddleware(...middlewares);
 
-  const storeEnhancers = [middlewareEnhancer];
+  // const storeEnhancers = [middlewareEnhancer];
 
-  const composedEnhancer = composeWithDevTools(...storeEnhancers);
+  // const composedEnhancer = composeWithDevTools(...storeEnhancers);
 
   const store = createStore(rootReducer, preloadedState, composedEnhancer);
 
