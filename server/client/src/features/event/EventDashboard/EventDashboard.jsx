@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Grid, Button } from "semantic-ui-react";
-import EventList from "../EventList/EventList";
-import SideMenu from "../../nav/SideMenu/SideMenu";
-import Filter from "../../nav/Filter/Filter";
-import { connect } from "react-redux";
-import { createEvent, deleteEvent, updateEvent } from "../eventActions";
-import { NavLink, Link, withRouter } from "react-router-dom";
+import React, { Component } from 'react';
+import { Grid, Button } from 'semantic-ui-react';
+import EventList from '../EventList/EventList';
+import SideMenu from '../../nav/SideMenu/SideMenu';
+import Filter from '../../nav/Filter/Filter';
+import { connect } from 'react-redux';
+import { createEvent, deleteEvent, updateEvent } from '../eventActions';
+import { NavLink, Link, withRouter } from 'react-router-dom';
 
 const mapState = state => ({
   events: state.events

@@ -10,7 +10,7 @@ const postSchema = mongoose.Schema({
   },
   post_date: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   },
   participants: [
     {
@@ -24,18 +24,17 @@ const postSchema = mongoose.Schema({
     minlength: 8,
     maxlength: 10000
   },
-  photo_id: [
+  image: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Photo'
+      type: String
     }
   ], //list of photo id
   post_title: {
     type: String,
     require: true,
     trim: true,
-    minlength: 8,
-    maxlength: 200
+    minlength: 1,
+    maxlength: 20
   },
   post_like: {
     type: Number,
@@ -63,7 +62,8 @@ const postSchema = mongoose.Schema({
       commentString: String
     }
   ], //list of user id who comment on the post???
-  event_date: Date
+  event_date: Date,
+  event_place: String
 });
 postSchema.plugin(uniqueValidator); //plugin has to be here after schema set up
 module.exports = mongoose.model('Post', postSchema);
