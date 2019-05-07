@@ -2,20 +2,20 @@ const mongoose = require('mongoose');
 //const requireNeighborhood = require('../middleware/requireNeighborhood');
 const auth = require('../middleware/auth');
 const Post = mongoose.model('Post');
+const Review = require('../models/Review');
 
 module.exports = app => {
   //create new posts  tested
   app.post('/api/posts', auth, async (req, res) => {
-    const { title, post_type, description, event_date } = req.body;
+    const { post_title, post_type, description, event_date } = req.body;
 
     if (post_type == 'event') {
       const post = new Post({
-        title,
+        post_title,
         post_type,
         description,
         event_date,
-        post_owner: req.user.id,
-        post_date: Date.now()
+        post_owner: req.user.id
       });
       // post.owner = req.user.id;
       try {
@@ -32,7 +32,7 @@ module.exports = app => {
       post_type == 'donation'
     ) {
       const post = new Post({
-        title,
+        post_title,
         post_type,
         description,
         post_owner: req.user.id,
@@ -46,7 +46,9 @@ module.exports = app => {
       }
     }
   });
-  app.get('/api/myPosts', async (req, res) => {
+
+  //get a user owen post
+  app.get('/api/myPosts', auth, async (req, res) => {
     const allPost = await Post.find({
       owner: req.user.id
     });
@@ -66,6 +68,7 @@ module.exports = app => {
       res.status(404).send(e);
     }
   });
+
   //display posts by zipcode  how do i can related to the user and post??
   app.get('/api/posts/', auth, async (req, res) => {
     try {
@@ -100,52 +103,49 @@ module.exports = app => {
     }
   });
 
-  // //update a post with post id, and user id  (not working)
-  // app.put('/api/updatePost', auth, async (req, res) => {
-  //   const updates = Object.keys(req.body);
-  //   // console.log(req);
-  //   // const allowedUpdates = [
-  //   //   'description',
-  //   //   'post_title',
-  //   //   'post_active', //boolean
-  //   //   'event_date',
-  //   //   'photo_id'
-  //   // ];
-  //   // const isValidOperation = updates.every(update =>
-  //   //   allowedUpdates.includes(update)
-  //   // );
+  //takes a post id(should be pass from user on click in front-end) and return the post with its review
+  app.get('/api/postsAndReview/:id', auth, async (req, res) => {
+    try {
+      const post = await Post.find({
+        _id: req.params.id
+      });
+      const review = await Review.find({
+        related_post: req.params.id
+      });
+      if (!post) {
+        res.send('no such post');
+        console.log('no such post');
+      }
+      console.log(post);
+      await res.send({ post, review });
+    } catch (e) {
+      console.log('something wrong in get post ');
+      res.status(404).send(e);
+    }
+  });
 
-  //   // if (!isValidOperation) {
-  //   //   return res.status(400).send({ error: 'Invalid updates!' });
-  //   // }
-  //   console.log(req.body._id); //this is the post ID that gets from the front end
-  //   console.log(req.user.id);
-  //   let post = new Post();
-  //   console.log(post);
-  //   try {
-  //     post = await Post.find({
-  //       _id: req.body._id,
-  //       post_owner: req.user.id
-  //     });
-  //     updates.forEach(update => (post[update] = req.body[update]));
-  //     console.log(post);
-  //     await post.save();
-  //     // console.log(post);
-  //     res.send(post);
-  //   } catch (e) {
-  //     res.status(400).send(e);
-  //     console.log(e);
-  //   }
-  // });
-
+  // //update a post with post id, and user id
+  //(test, need to pass a user id in the ulr i.e: params.id is the user id in the url)
   app.patch('/updatePost/:id', auth, async (req, res) => {
     const updates = Object.keys(req.body);
-    // const allowedUpdates = ['description', 'completed']
-    // const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+    const allowedUpdates = [
+      'description',
+      'post_title',
+      'post_like',
+      'post_dislike',
+      'post_active',
+      'review',
+      'event_date',
+      'photo_id',
+      'participants'
+    ];
+    const isValidOperation = updates.every(update =>
+      allowedUpdates.includes(update)
+    );
 
-    // if (!isValidOperation) {
-    //     return res.status(400).send({ error: 'Invalid updates!' })
-    // }
+    if (!isValidOperation) {
+      return res.status(400).send({ error: 'Invalid updates!' });
+    }
 
     try {
       const post = await Post.findOne({
