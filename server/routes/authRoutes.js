@@ -1,4 +1,5 @@
 const passport = require('passport');
+const auth = require('../middleWare/auth');
 
 //exporting function to express app
 module.exports = app => {
@@ -16,7 +17,7 @@ module.exports = app => {
     passport.authenticate('google'),
     (req, res) => {
       if (req.user.neighborhood_zipCode) {
-        res.redirect('/events');
+        res.redirect('/dashboard');
       } else {
         res.redirect('./'); //redirecting to user profile page
       }
@@ -31,7 +32,7 @@ module.exports = app => {
     passport.authenticate('facebook'),
     (req, res) => {
       if (req.user.neighborhood_zipCode) {
-        res.redirect('/events');
+        res.redirect('/dashboard');
       } else {
         res.redirect('./'); //redirecting to user profile page
       }
@@ -51,7 +52,7 @@ module.exports = app => {
     passport.authenticate('twitter'),
     (req, res) => {
       if (req.user.neighborhood_zipCode) {
-        res.redirect('/events');
+        res.redirect('/dashboard');
       } else {
         res.redirect('./'); //redirecting to user profile page
       }
@@ -66,7 +67,7 @@ module.exports = app => {
     passport.authenticate('linkedin'),
     (req, res) => {
       if (req.user.neighborhood_zipCode) {
-        res.redirect('/events');
+        res.redirect('/dashboard');
       } else {
         res.redirect('./'); //redirecting to user profile page
       }
@@ -87,7 +88,7 @@ module.exports = app => {
     res.redirect('/');
   });
 
-  app.get('/api/current_user', (req, res) => {
+  app.get('/api/current_user', async (req, res) => {
     res.send(req.user);
   });
 };

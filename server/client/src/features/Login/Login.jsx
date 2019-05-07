@@ -3,6 +3,7 @@ import './Login.css';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import { Divider } from 'semantic-ui-react';
 import { login } from '../user/userFunctions';
+import { connect } from 'mongoose';
 
 export default class Login extends Component {
   constructor() {
@@ -27,11 +28,7 @@ export default class Login extends Component {
       password: this.state.password
     };
 
-    login(user).then(res => {
-      if (res) {
-        this.props.history.push(`/profile`);
-      }
-    });
+    this.props.login(user);
   }
 
   render() {
@@ -69,6 +66,7 @@ export default class Login extends Component {
               >
                 Sign in
               </button>
+
               <Divider horizontal>Or</Divider>
               <SocialLogin />
             </form>
@@ -78,3 +76,10 @@ export default class Login extends Component {
     );
   }
 }
+
+// const mapStateToProps = state => {};
+
+// export default connect(
+//   mapStateToProps,
+//   { login }
+// )(Login);

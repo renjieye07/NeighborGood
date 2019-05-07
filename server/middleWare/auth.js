@@ -3,6 +3,7 @@ const User = require('../models/User');
 
 const auth = async (req, res, next) => {
   try {
+    console.log(req.header);
     const token = req.header('Authorization').replace('Bearer ', '');
     const decoded = jwt.verify(token, 'iamsocool');
     const user = await User.findOne({
@@ -17,7 +18,7 @@ const auth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (e) {
-    res.status(400).send('authrization fail');
+    console.log(e);
   }
 };
 

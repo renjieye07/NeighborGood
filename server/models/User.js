@@ -55,7 +55,7 @@ const userSchema = mongoose.Schema(
       maxlength: 100,
       trim: true
     },
-    user_imageURL: String,
+    user_image: String,
 
     gender: String,
 
@@ -65,7 +65,12 @@ const userSchema = mongoose.Schema(
     },
 
     // lastLoginDate:Date,
-
+    posts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
+      }
+    ],
     tokens: [
       {
         token: {
@@ -81,12 +86,12 @@ const userSchema = mongoose.Schema(
 );
 
 //make the relationship between user and post
-userSchema.virtual('posts', {
-  //'posts' is just the name a want i make in this function
-  ref: 'Post', // 'Post' should be the same as module.exports ??
-  localField: '_id', //
-  foreignField: 'post_owner' //'post_owner' is the field i defin in the post schema
-});
+// userSchema.virtual('posts', {
+//   //'posts' is just the name a want i make in this function
+//   ref: 'Post', // 'Post' should be the same as module.exports ??
+//   localField: '_id', //
+//   foreignField: 'post_owner' //'post_owner' is the field i defin in the post schema
+// });
 
 //this mothed delete the password and tokens before sending back to the clien side
 userSchema.methods.toJSON = function() {

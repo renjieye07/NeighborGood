@@ -26,7 +26,7 @@ const postSchema = mongoose.Schema(
       minlength: 8,
       maxlength: 10000
     },
-    //we are just using url string, no need this
+    //we are just using url string, no need
     // photo_id: [
     //   {
     //     type: mongoose.Schema.Types.ObjectId,
@@ -37,8 +37,8 @@ const postSchema = mongoose.Schema(
       type: String,
       require: true,
       trim: true,
-      minlength: 8,
-      maxlength: 200
+      minlength: 5,
+      maxlength: 30
     },
     post_like: {
       type: Number,
@@ -58,13 +58,11 @@ const postSchema = mongoose.Schema(
       ref: 'User',
       require: true
     },
-    photoUrl: String,
 
     review: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        commentString: String
+        ref: 'User'
       }
     ], //list of user id who comment on the post???
     event_date: Date

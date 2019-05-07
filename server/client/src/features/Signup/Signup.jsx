@@ -25,8 +25,8 @@ class Signup extends Component {
       user_name: '',
       email: '',
       password: '',
-      neighborhhod_zipCode: '',
-      neighborhhod_city: ''
+      neighborhood_zipCode: '',
+      neighborhood_city: ''
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -42,12 +42,12 @@ class Signup extends Component {
       user_name: this.state.user_name,
       email: this.state.email,
       password: this.state.password,
-      neighborhhod_zipCode: this.state.neighborhhod_zipCode,
-      neighborhhod_city: this.state.neighborhhod_city
+      neighborhood_zipCode: this.state.neighborhood_zipCode,
+      neighborhood_city: this.state.neighborhood_city
     };
 
     register(user).then(res => {
-      this.props.history.push(`/login`);
+      this.props.history.push(`/`);
     });
   }
 
