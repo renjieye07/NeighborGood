@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const requireLogin = require('../middleware/requireLogin');
-//const requireNeighborhood = require('../middleware/requireNeighborhood');
 const auth = require('../middleware/auth');
 const Post = mongoose.model('Post');
+const User = mongoose.model('User');
 
 module.exports = app => {
   app.post('/api/newPost', requireLogin, async (req, res) => {
@@ -12,7 +12,8 @@ module.exports = app => {
       description,
       event_date,
       place,
-      trade_price
+      trade_price,
+      photo
     } = req.body;
 
     if (post_type == 'event') {
@@ -22,13 +23,13 @@ module.exports = app => {
         description,
         event_date,
         place,
+        photo,
         owner: req.user.id,
         post_date: Date.now()
       });
-      // post.owner = req.user.id;
       try {
+        await post.participants.push(req.user.id);
         await post.save();
-        done();
         console.log(req.post);
       } catch (err) {
         console.log(err);
@@ -38,12 +39,12 @@ module.exports = app => {
         post_title,
         post_type,
         description,
+        photo,
         post_owner: req.user.id,
         post_date: Date.now()
       });
       try {
         await post.save();
-        done();
       } catch (err) {
         console.log(err);
       }
@@ -54,24 +55,24 @@ module.exports = app => {
         description,
         trade_price,
         place,
+        photo,
         post_owner: req.user.id,
         post_date: Date.now()
       });
       // post.owner = req.user.id;
       try {
         await post.save();
-        done();
       } catch (err) {
         res.status(422).send(err);
       }
     }
   });
-  app.get('/api/myPosts', async (req, res) => {
-    const allPost = await Post.find({
-      owner: req.user.id
+  app.get('/api/myPosts', requireLogin, async (req, res) => {
+    const myPosts = await Post.find({
+      post_owner: req.user.id
     });
-    console.log(allPost);
-    done(null, allPost);
+
+    res.send(myPosts);
   });
 
   //display posts by the user created   tested
@@ -87,7 +88,7 @@ module.exports = app => {
     }
   });
   //display posts by zipcode  how do i can related to the user and post??
-  app.get('/api/posts/', auth, async (req, res) => {
+  app.get('/api/allPosts/', async (req, res) => {
     try {
       const post = await Post.find({
         post_owner: req.user.neighborhood_zipCode
@@ -101,7 +102,7 @@ module.exports = app => {
     }
   });
 
-  //del posts   tested
+  //del posts tested
   app.delete('/api/posts/:id', auth, async (req, res) => {
     console.log('calling delete post');
     try {
