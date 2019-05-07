@@ -24,11 +24,7 @@ const postSchema = mongoose.Schema({
     minlength: 8,
     maxlength: 10000
   },
-  image: [
-    {
-      type: String
-    }
-  ], //list of photo id
+  photo: String, //photo url
   post_title: {
     type: String,
     require: true,

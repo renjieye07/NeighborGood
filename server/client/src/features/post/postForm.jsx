@@ -5,31 +5,44 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
 import postField from '../../app/common/form/PostField';
-import { createPost } from '../../actions/index';
+import { createPost, getUrl } from '../../actions/index';
 import { withRouter } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
-import PhotoUpload from '../../app/common/form/PhotoUpload';
-
+import axios from 'axios';
+import { CloudinaryContext, Transformation, Image } from 'cloudinary-react';
 import 'react-datepicker/dist/react-datepicker.css';
+
+import PhotoUpload from '../../app/common/form/PhotoUpload';
 
 class PostForm extends Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
-    //this.handleChange = this.handleChange.bind(this);
-    this.state = { term: '', startDate: new Date() };
+    this.handlePhotoSelect = this.handlePhotoSelect.bind(this);
+    this.state = { term: '', startDate: new Date(), image: [], photo: '' };
   }
 
   handleSubmit() {
+    console.log(this.props.form.postForm);
+
     this.props.createPost(this.props.form.postForm.values, this.props.history);
     this.props.history.push('/dashboard');
   }
-  // handleChange(date) {
-  //   console.log('passed');
-  //   this.setState({
-  //     startDate: date
-  //   });
-  // }
+  handlePhotoSelect = async event => {
+    await this.setState({
+      image: event.target.files[0]
+    });
+    console.log(this.state);
+  };
+  async handlePhotoUpload() {
+    await this.props.getUrl(this.state.image);
+    console.log(this.props);
+    await this.setState({
+      photo: this.props.getURL.secure_url
+    });
+    console.log(this.state.photo);
+    this.props.change('photo', this.state.photo);
+  }
 
   renderDatePicker = ({ input, meta: { touched, error }, onChange }) => (
     <div>
@@ -47,11 +60,15 @@ class PostForm extends Component {
     </div>
   );
 
-  // renderFileInput = ({ input, meta: { touched, error }, onChange }) => {
-  //   <div>
-  //     <input type="file" accept=".jpg, .png, .jpeg, .gif" onChange={onChange} />
-  //   </div>;
-  // };
+  renderFileUpload = () => (
+    <div>
+      <label>You can even upload an image</label>
+      <input type="file" accept="image/*" onChange={this.handlePhotoSelect} />
+      <button type="button" onClick={e => this.handlePhotoUpload(e)}>
+        upload
+      </button>
+    </div>
+  );
 
   renderFields() {
     if (this.state.term === 'event') {
@@ -117,7 +134,6 @@ class PostForm extends Component {
           <Field
             name="post_type"
             type="text"
-            value={this.state.term}
             component="select"
             onChange={e => this.setState({ term: e.target.value })}
           >
@@ -128,12 +144,18 @@ class PostForm extends Component {
           </Field>
           {this.renderFields()}
           <Field
-            type="file"
             name="photo"
-            label="You can even upload a photo about this post"
-            component={PhotoUpload}
-            // onChange={}
+            label="You can even upload an image"
+            component={this.renderFileUpload}
+            onChange={e =>
+              this.setState({ photo: this.props.getUrl(e).secure_url })
+            }
           />
+          {/* <Field
+            name="photo"
+            label="You can even upload an image"
+            component={this.renderFileUpload}
+          /> */}
           <br />
           <button type="submit" className="btn waves-effect waves-light right">
             Submit
@@ -162,11 +184,15 @@ function validate(values) {
 }
 
 function mapStateToProps(state) {
-  return { form: state.form, createPost: state.createPost };
+  return {
+    form: state.form,
+    createPost: state.createPost,
+    getURL: state.getURL
+  };
 }
 PostForm = connect(
   mapStateToProps,
-  { createPost }
+  { createPost, getUrl }
 )(PostForm);
 export default reduxForm({
   validate,

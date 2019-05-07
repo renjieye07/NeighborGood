@@ -53,6 +53,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './app/layout/App';
 import reducers from './app/reducers';
 
+import axios from 'axios';
+window.axios = axios;
+
 //reducer
 const store = createStore(
   reducers,

@@ -14,13 +14,9 @@ export default class PhotoUpload extends Component {
   }
 
   render() {
-    const {
-      input: { value }
-    } = this.props;
-    const { input, label, required, meta } = this.props; //whatever props you send to the component from redux-form Field
+    //const { label } = this.props; //whatever props you send to the component from redux-form Field
     return (
       <div>
-        <label>{label}</label>
         <div>
           <input
             type="file"
@@ -32,3 +28,16 @@ export default class PhotoUpload extends Component {
     );
   }
 }
+
+// import React from 'react';
+// import { Form } from 'semantic-ui-react';
+
+// export default ({ input, label, meta: { error, touched }, onChange }) => {
+//   return (
+//     <div>
+//       <label>{label}</label>
+//       <Form.Input {...input} type="file" accept="image/*" onChange={onChange} />
+//       <div className="red-text">{touched && error}</div>
+//     </div>
+//   );
+// };
