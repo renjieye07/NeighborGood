@@ -3,6 +3,7 @@ const requireLogin = require('../middleware/requireLogin');
 const auth = require('../middleware/auth');
 const Post = mongoose.model('Post');
 const User = mongoose.model('User');
+const Review = require('../models/Review');
 
 module.exports = app => {
   app.post('/api/newPost', requireLogin, async (req, res) => {
@@ -22,6 +23,7 @@ module.exports = app => {
         post_type,
         description,
         event_date,
+        photo,
         post_owner: req.user.id
       });
       try {
@@ -38,8 +40,21 @@ module.exports = app => {
         trade_price,
         place,
         photo,
-        post_owner: req.user.id,
-        post_date: Date.now()
+        post_owner: req.user.id
+      });
+      // post.owner = req.user.id;
+      try {
+        await post.save();
+      } catch (err) {
+        res.status(422).send(err);
+      }
+    } else if (post_type == 'info') {
+      const post = new Post({
+        post_title,
+        post_type,
+        description,
+        photo,
+        post_owner: req.user.id
       });
       // post.owner = req.user.id;
       try {
@@ -125,7 +140,7 @@ module.exports = app => {
       console.log(post);
       await res.send({ post, review });
     } catch (e) {
-      console.log('something wrong in get post ');
+      console.log(e);
       res.status(404).send(e);
     }
   });

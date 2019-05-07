@@ -26,6 +26,7 @@ const postSchema = mongoose.Schema(
       minlength: 8,
       maxlength: 10000
     },
+    photo: String,
     //we are just using url string, no need
     // photo_id: [
     //   {
