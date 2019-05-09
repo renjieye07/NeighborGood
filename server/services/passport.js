@@ -42,7 +42,7 @@ passport.use(
       const existingUser = await User.findOne({ googleID: profile.id });
       if (existingUser) {
         //existing user found
-        const token = await existingUser.generateAuthToken();
+        //const token = await existingUser.generateAuthToken();
         console.log('user profile: ' + profile);
         done(null, existingUser);
       } else {
@@ -50,11 +50,11 @@ passport.use(
         const user = await new User({
           googleID: profile.id,
           user_name: profile.name.givenName + ' ' + profile.name.familyName,
-          imageURL: profile.photos[0].value,
+          user_image: profile.photos[0].value,
           email: profile.emails[0].value,
           gender: profile.gender
         }).save();
-        await user.generateAuthToken();
+        //await user.generateAuthToken();
         done(null, user);
       }
     }
@@ -73,7 +73,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       const existingUser = await User.findOne({ facebookID: profile.id });
-      await existingUser.generateAuthToken();
+      //await existingUser.generateAuthToken();
       if (existingUser) {
         console.log('profile', profile);
         done(null, existingUser);
@@ -81,11 +81,11 @@ passport.use(
         const user = await new User({
           facebookID: profile.id,
           user_name: profile.name.givenName + ' ' + profile.name.familyName,
-          imageURL: profile.photos[0].value,
+          user_image: profile.photos[0].value,
           email: profile.emails[0].value,
           gender: profile.gender
         }).save();
-        await user.generateAuthToken();
+        //await user.generateAuthToken();
         done(null, user);
       }
     }
@@ -104,15 +104,15 @@ passport.use(
       const existingUser = await User.findOne({ twitterID: profile.id });
       if (existingUser) {
         console.log(profile);
-        existingUser.generateAuthToken();
+        //existingUser.generateAuthToken();
         done(null, existingUser);
       } else {
         const user = await new User({
           twitterID: profile.id,
           user_name: profile.name.givenName + ' ' + profile.name.familyName,
-          imageURL: profile.photos[0].value
+          user_image: profile.photos[0].value
         }).save();
-        user.generateAuthToken();
+        //user.generateAuthToken();
         done(null, user);
       }
     }
@@ -131,16 +131,16 @@ passport.use(
       const existingUser = await User.findOne({ linkedinID: profile.id });
       if (existingUser) {
         console.log('profile', profile);
-        existingUser.generateAuthToken();
+        // existingUser.generateAuthToken();
         done(null, existingUser);
       } else {
         const user = await new User({
           linkedinID: profile.id,
           user_name: profile.name.givenName + ' ' + profile.name.familyName,
-          imageURL: profile.photos[0].value,
+          user_image: profile.photos[0].value,
           email: profile.emails[0].value
         }).save();
-        user.generateAuthToken();
+        // user.generateAuthToken();
         done(null, user);
       }
     }

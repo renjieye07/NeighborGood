@@ -2,9 +2,10 @@ import { combineReducers } from 'redux';
 import { reducer as FormReducer } from 'redux-form';
 import authReducer from './authReducer';
 import createPostReducer from './createPostReducer';
-import helloWorldReducer from './helloworldReducer';
+//import helloWorldReducer from './helloworldReducer';
 import getUrlReducer from './getUrlReducer';
 import fetchMyPostsReducer from './fetchMyPostsReducer';
+import fetchPostsReducer from './fetchPostsReducer';
 import getUserReducer from './getUserReducer';
 
 import errorReducer from './errorReducer';
@@ -17,10 +18,11 @@ export default combineReducers({
   auth: authReducer,
   createPost: createPostReducer,
   getURL: getUrlReducer,
+  posts: fetchPostsReducer,
   fetchMyPosts: fetchMyPostsReducer,
-  getUser: getUserReducer,
-  // helloworld: helloWorldReducer,
+  user: getUserReducer,
   form: FormReducer,
+  //-----------------
   events: eventReducer,
   sales: saleReducer,
   losts: lostReducer,

@@ -13,7 +13,7 @@ router.post('/users', async (req, res) => {
     await user.save();
     const token = await user.generateAuthToken();
     res.status(201).send({ user, token });
-    console.log(user);
+    //console.log(user);
   } catch (e) {
     res.status(400).send(e);
   }
@@ -75,13 +75,12 @@ router.get('/users/me', auth, async (req, res) => {
   res.send(req.user);
 });
 
-router.get('/users/getUser', async (req, res) => {
+router.post('/users/getUser', async (req, res) => {
   const { id } = req.body;
-  console.log(req.body);
-  console.log(req.params);
-  const user = await User.find({
+  const user = await User.findOne({
     _id: id
   });
+  //console.log(user);
   res.send(user);
 });
 

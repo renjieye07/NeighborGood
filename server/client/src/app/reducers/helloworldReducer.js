@@ -1,10 +1,10 @@
-import { HELLO_WORLD } from "../../actions/types";
+import { HELLO_WORLD } from '../../actions/types';
 
 export default function(state = null, action) {
-  console.log({"Action.payload": action.payload},{"Value Type": action.type})
+  //console.log({"Action.payload": action.payload},{"Value Type": action.type})
   switch (action.type) {
     case HELLO_WORLD:
-      return action.payload
+      return action.payload;
     default:
       return state;
   }

@@ -15,56 +15,50 @@ module.exports = app => {
       trade_price,
       photo
     } = req.body;
+    console.log(req.user);
 
-    if (post_type == 'event') {
-      const post = new Post({
-        post_title,
-        post_type,
-        description,
-        event_date,
-        place,
-        photo,
-        owner: req.user.id,
-        post_date: Date.now()
-      });
-      try {
-        await post.participants.push(req.user.id);
-        await post.save();
-        console.log(req.post);
-      } catch (err) {
-        console.log(err);
+    try {
+      if (post_type == 'event') {
+        const post = await new Post({
+          post_title,
+          post_type,
+          description,
+          event_date,
+          place,
+          participants: req.user.id,
+          photo,
+          post_owner: req.user.id,
+          zipcode: req.user.neighborhood_zipCode
+        }).save();
+        await req.user.posts.push(post._id);
+        await req.user.save();
+      } else if (post_type == 'info') {
+        const post = await new Post({
+          post_title,
+          post_type,
+          description,
+          photo,
+          post_owner: req.user.id,
+          zipcode: req.user.neighborhood_zipCode
+        }).save();
+        await req.user.posts.push(post._id);
+        await req.user.save();
+      } else if (post_type == 'trade') {
+        const post = await new Post({
+          post_title,
+          post_type,
+          description,
+          trade_price,
+          place,
+          photo,
+          post_owner: req.user.id,
+          zipcode: req.user.neighborhood_zipCode
+        }).save();
+        await req.user.posts.push(post._id);
+        await req.user.save();
       }
-    } else if (post_type == 'info') {
-      const post = new Post({
-        post_title,
-        post_type,
-        description,
-        photo,
-        post_owner: req.user.id,
-        post_date: Date.now()
-      });
-      try {
-        await post.save();
-      } catch (err) {
-        console.log(err);
-      }
-    } else if (post_type == 'trade') {
-      const post = new Post({
-        post_title,
-        post_type,
-        description,
-        trade_price,
-        place,
-        photo,
-        post_owner: req.user.id,
-        post_date: Date.now()
-      });
-      // post.owner = req.user.id;
-      try {
-        await post.save();
-      } catch (err) {
-        res.status(422).send(err);
-      }
+    } catch (err) {
+      console.log(err);
     }
   });
   app.get('/api/myPosts', requireLogin, async (req, res) => {
@@ -80,7 +74,6 @@ module.exports = app => {
     try {
       const post = await Post.find({ post_owner: req.user._id });
       // await req.user.populate('posts').execpopulate();
-      console.log(post);
       res.send(post);
     } catch (e) {
       console.log('something wrong in get post ');
@@ -88,17 +81,43 @@ module.exports = app => {
     }
   });
   //display posts by zipcode  how do i can related to the user and post??
-  app.get('/api/allPosts/', async (req, res) => {
+  app.get('/api/allPosts', requireLogin, async (req, res) => {
     try {
-      const post = await Post.find({
-        post_owner: req.user.neighborhood_zipCode
-      });
-      // await req.user.populate('posts').execpopulate();
-      console.log(post);
-      res.send(post);
+      // const post = await Post.find({
+      //   zipcode: req.user.neighborhood_zipCode
+      // });
+      // res.send(post);
+      Post.find({ zipcode: req.user.neighborhood_zipCode })
+        .populate('post_owner', 'user_name user_image')
+        .populate('participants', 'user_image')
+        .exec((err, post) => {
+          if (err) {
+            res.send(err);
+          } else {
+            res.send(post);
+          }
+        });
     } catch (e) {
       console.log('something wrong in get post ');
       res.status(404).send(e);
+    }
+  });
+  app.get('/api/posts/:id', async (req, res) => {
+    console.log('getting detail post information...');
+    try {
+      Post.find({ _id: req.params.id })
+        .populate('participants')
+        .populate('review')
+        .populate('post_owner', 'user_name')
+        .exec((err, review) => {
+          if (err) {
+            res.send(err);
+          } else {
+            res.send(review);
+          }
+        });
+    } catch (e) {
+      res.send(e);
     }
   });
 

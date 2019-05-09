@@ -14,7 +14,7 @@ const reviewSchema = mongoose.Schema({
     trim: true,
     require: true
   },
-  review_data: {
+  review_date: {
     type: Date,
     default: Date.now()
   },

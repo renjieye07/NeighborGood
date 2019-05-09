@@ -1,21 +1,20 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const neighborhoodSchema = mongoose.Schema({
-  // _neighborhhod_id:{
-  //     type:mongoose.Schema.Types.ObjectId,
-  //     require:ture
-  // },
-  neighborhood_zipCode: {
-    type: String,
-    require: true,
-    unique: true
-  },
-  neighborhhod_city: {
-    type: mongoose.Schema.Types.ObjectId,
-    require: true
-  },
-  neighborhood_name: String,
-  neighbors: Number
+const neighborhoodSchema = new Schema({
+  neighbors: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ],
+  zipCode: String,
+  posts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Post'
+    }
+  ]
 });
 
-module.exports = mongoose.model('Neighborhood', neighborhhodSchema);
+module.exports = mongoose.model('Neighborhood', neighborhoodSchema);

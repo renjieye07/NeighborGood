@@ -24,6 +24,7 @@ import Signup from '../../features/Signup/Signup';
 import Login from '../../features/Login/Login';
 import Dashboard from '../../features/dashboard/DashBoard';
 import PostForm from '../../features/post/postForm';
+import PostDetailPage from '../../features/post/postDetailPage';
 import '../../App.css';
 import * as actions from '../../actions';
 
@@ -43,6 +44,7 @@ class App extends Component {
               <Route path="/login" component={Login} />
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/posts/new" component={PostForm} />
+              <Route path="/posts/:id" component={PostDetailPage} />
               <Route path="/events" component={EventDashboard} />
               <Route path="/event/:id" component={EventDetailedPage} />
               <Route path="/createEvent" component={EventForm} />
