@@ -2,6 +2,7 @@ const User = require('../models/User');
 const express = require('express');
 const router = new express.Router();
 const auth = require('../middleWare/auth');
+const requireLogin = require('../middleWare/requireLogin');
 const mongoose = require('mongoose');
 
 //tested  create new user
@@ -72,6 +73,16 @@ router.get('/users/me', auth, async (req, res) => {
   //     res.status(500).send()
   // }
   res.send(req.user);
+});
+
+router.get('/users/getUser', async (req, res) => {
+  const { id } = req.body;
+  console.log(req.body);
+  console.log(req.params);
+  const user = await User.find({
+    _id: id
+  });
+  res.send(user);
 });
 
 //not goting to use this api
