@@ -1,36 +1,21 @@
-# Project Title
+# NeighborGood
 
-One Paragraph of project description goes here
+NeighborGood is a two-semester long senior project in SE195A/B at San José State University in Spring 2019.
+NeighborGood is a web application that focuses on providing convenient communication for users and improving relationships between people living in the same neighborhoods. Neighbourly relations have decreased in the United States since the 1950s which has resulted in a lack of communication between neighbors. Additionally, only 20% of Americans spend their time with the people living next door. As a team, we are aware of the social issue and decided to create a platform and provide an opportunity for our users to actively interact with each other online.
 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+need to install Node.js
 
 ### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+1:clone NeighborGood
+2:Navigate to client folder 
+      npm install
+3:Navigate to server folder
+       npm install
 
 Folder Structure Conventions
 ============================
@@ -84,9 +69,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+Team: Renjie Ye, shunyu, Yihua Li, Quang Tiep Du
 
 ## License
 
