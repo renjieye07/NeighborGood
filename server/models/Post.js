@@ -6,13 +6,14 @@ const postSchema = mongoose.Schema(
   {
     post_type: {
       type: String,
-      enum: ['trade', 'info', 'help', 'donate', 'event'],
+      enum: ['trade', 'info', 'help', 'donate', 'event', 'sale'],
       require: true
     },
-    post_date: {
-      type: Date,
-      default: Date.now()
-    },
+    //since we are using timestamp, no need to set up the post date
+    // post_date: {
+    //   type: Date,
+    //   default: Date.now
+    // },
     participants: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -30,8 +31,8 @@ const postSchema = mongoose.Schema(
       type: String,
       require: true,
       trim: true,
-      minlength: 1,
-      maxlength: 50
+      minlength: 5,
+      maxlength: 30
     },
     post_like: {
       type: Number,
@@ -52,6 +53,8 @@ const postSchema = mongoose.Schema(
       require: true
     },
 
+    zipcode: String,
+
     review: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -59,8 +62,7 @@ const postSchema = mongoose.Schema(
       }
     ], //list of user id who comment on the post???
     event_date: Date,
-    event_place: String,
-    zipcode: String
+    event_place: String
   },
   {
     timestamps: true

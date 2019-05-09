@@ -38,17 +38,16 @@ passport.use(
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
-      //look for existing users
       const existingUser = await User.findOne({ googleID: profile.id });
+      await existingUser.generateAuthToken();
       if (existingUser) {
         //existing user found
         //const token = await existingUser.generateAuthToken();
         console.log('user profile: ' + profile);
         done(null, existingUser);
       } else {
-        //create a new user, then save the data to the database
         const user = await new User({
-          googleID: profile.id,
+          facebookID: profile.id,
           user_name: profile.name.givenName + ' ' + profile.name.familyName,
           user_image: profile.photos[0].value,
           email: profile.emails[0].value,

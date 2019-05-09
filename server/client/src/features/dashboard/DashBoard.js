@@ -5,6 +5,7 @@ import Filter from '../nav/Filter/Filter';
 import PostList from '../post/postList';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+//import PeopleDashBoard from '../user/PeopleDashboard/PeopleDashboard';
 const Dashboard = () => {
   return (
     <div>

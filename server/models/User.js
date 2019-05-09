@@ -5,6 +5,7 @@ const validator = require('validator');
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Post = require('./Post');
 
 const userSchema = mongoose.Schema(
   {
@@ -54,7 +55,7 @@ const userSchema = mongoose.Schema(
       maxlength: 100,
       trim: true
     },
-    user_imageURL: String,
+    user_image: String,
 
     gender: String,
 
@@ -69,9 +70,6 @@ const userSchema = mongoose.Schema(
         ref: 'Post'
       }
     ],
-
-    // lastLoginDate:Date,
-
     tokens: [
       {
         token: {
@@ -141,6 +139,13 @@ userSchema.pre('save', async function(next) {
     user.password = await bcrypt.hash(user.password, 8);
   }
 
+  next();
+});
+
+//del user posts when user is removed  not test yet!!
+userSchema.pre('remove', async function(next) {
+  const user = this;
+  await Post.deleteMany({ post_owner: user._id });
   next();
 });
 
