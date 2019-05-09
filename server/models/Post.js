@@ -6,7 +6,7 @@ const postSchema = mongoose.Schema(
   {
     post_type: {
       type: String,
-      enum: ['trade', 'info', 'help', 'donate', 'event'],
+      enum: ['trade', 'info', 'help', 'donate', 'event', 'sale'],
       require: true
     },
     //since we are using timestamp, no need to set up the post date
@@ -60,10 +60,12 @@ const postSchema = mongoose.Schema(
       require: true
     },
 
+    zipcode: String,
+
     review: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'Review'
       }
     ], //list of user id who comment on the post???
     event_date: Date

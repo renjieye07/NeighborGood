@@ -64,7 +64,6 @@ const userSchema = mongoose.Schema(
       default: Date.now()
     },
 
-    // lastLoginDate:Date,
     posts: [
       {
         type: Schema.Types.ObjectId,

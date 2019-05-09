@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PeopleDashBoard from '../user/PeopleDashboard/PeopleDashboard';
+//import PeopleDashBoard from '../user/PeopleDashboard/PeopleDashboard';
 const Dashboard = () => {
   return (
     <div>
@@ -13,9 +13,7 @@ const Dashboard = () => {
       <div>
         <img src="https://res.cloudinary.com/yihuali1993/image/upload/v1557111980/yrqwwnwm67sjf06y8dvp.jpg" />
       </div>
-      <div>
-        <PeopleDashBoard />
-      </div>
+      <div>{/* <PeopleDashBoard /> */}</div>
     </div>
   );
 };

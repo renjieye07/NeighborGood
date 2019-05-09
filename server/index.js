@@ -44,7 +44,6 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 require('./routes/postRoutes')(app);
 require('./routes/reviewRoutes')(app);
-require('./routes/reviewRoutes')(app);
 app.use(express.json()); //expreess takes incoming data to an obj
 
 //maintenance

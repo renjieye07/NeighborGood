@@ -6,7 +6,8 @@ const User = mongoose.model('User');
 const Review = require('../models/Review');
 
 module.exports = app => {
-  app.post('/api/newPost', requireLogin, async (req, res) => {
+  app.post('/api/newPost', auth, async (req, res) => {
+    console.log('creating new post');
     const {
       post_title,
       post_type,
@@ -24,11 +25,17 @@ module.exports = app => {
         description,
         event_date,
         photo,
+        zipcode: req.user.neighborhood_zipCode,
         post_owner: req.user.id
       });
       try {
         await post.participants.push(req.user.id);
         await post.save();
+        req.user.posts.push(post._id);
+        let user = new User(req.user);
+        console.log(user);
+        await user.save();
+        res.status(200).send({ post, user });
       } catch (err) {
         console.log(err);
       }
@@ -40,11 +47,18 @@ module.exports = app => {
         trade_price,
         place,
         photo,
+        zipcode: req.user.neighborhood_zipCode,
         post_owner: req.user.id
       });
       // post.owner = req.user.id;
       try {
+        await post.participants.push(req.user.id);
         await post.save();
+        req.user.posts.push(post._id);
+        let user = new User(req.user);
+        console.log(user);
+        await user.save();
+        res.status(200).send({ post, user });
       } catch (err) {
         res.status(422).send(err);
       }
@@ -54,11 +68,19 @@ module.exports = app => {
         post_type,
         description,
         photo,
+        zipcode: req.user.neighborhood_zipCode,
         post_owner: req.user.id
       });
       // post.owner = req.user.id;
       try {
+        await post.participants.push(req.user.id);
         await post.save();
+        req.user.posts.push(post._id);
+        let user = new User(req.user);
+        console.log(user);
+        await user.save();
+        res.status(200).send({ post, user });
+        res.status(200).send(post);
       } catch (err) {
         res.status(422).send(err);
       }
@@ -90,17 +112,45 @@ module.exports = app => {
     }
   });
 
-  //display posts by zipcode  how do i can related to the user and post??
-  app.get('/api/allPosts/', async (req, res) => {
+  //display posts by zipcode
+  //needs a query string with this format:  ?sortBy=asc....or ?sortBy=desc
+  //query string 1:type: 'event', 'info' and 'trade' (ex:  ?type=event), so, the api will send back the post which type is event
+  //             2:pagination: limit(i.e if limit is 10, so that each api call, back-end will send back 10 post)
+  //                           skip(i.e skip is how many post want to skip. ex: if limit is 10, you want to get the next 10 post, skip is 10
+  //                                 and for each next 10 post, front-end need use skip+10 to get the next 10)
+  //
+
+  app.get('/api/allPosts', auth, async (req, res) => {
+    let keyword = req.query.keyword;
+    let post_type = req.query.type; //(has to be those type('trade', 'info','event'))
+    const reg = new RegExp(keyword, 'i');
     try {
+      console.log(req.query.limit);
+      console.log(req.query.skip);
+      let sortMethod = req.query.sortBy;
+
       const post = await Post.find({
-        post_owner: req.user.neighborhood_zipCode
-      });
+        zipcode: req.user.neighborhood_zipCode,
+        post_title: reg,
+        post_type: post_type
+        // options: {
+        //   // limit: parseInt(req.query.limit),
+        //   // skip: parseInt(req.query.skip)
+        //   limit: 3,
+        //   skip: 3
+        // }
+      })
+        .populate('post_owner', 'user_name user_image')
+        .populate('participants', 'user_image')
+        .skip(parseInt(req.query.skip))
+        .limit(parseInt(req.query.limit))
+        .sort({ createdAt: sortMethod })
+        .sort({ review: sortMethod });
       // await req.user.populate('posts').execpopulate();
       console.log(post);
       res.send(post);
     } catch (e) {
-      console.log('something wrong in get post ');
+      console.log(e);
       res.status(404).send(e);
     }
   });
@@ -129,16 +179,20 @@ module.exports = app => {
     try {
       const post = await Post.find({
         _id: req.params.id
-      });
-      const review = await Review.find({
-        related_post: req.params.id
-      });
+      })
+        .populate('review')
+        .populate('post_owner', 'user_name user_image')
+        .populate('participants', 'user_image user user_name');
+
+      // const review = await Review.find({
+      //   related_post: req.params.id
+      // });
       if (!post) {
         res.send('no such post');
         console.log('no such post');
       }
       console.log(post);
-      await res.send({ post, review });
+      await res.send({ post });
     } catch (e) {
       console.log(e);
       res.status(404).send(e);
@@ -185,4 +239,54 @@ module.exports = app => {
       res.status(400).send(e);
     }
   });
+  app.post('/api/allPosts/', auth, async (req, res) => {
+    let { keyword, post_type } = req.body; //(has to be those type('trade', 'info','event'))
+    const reg = new RegExp(keyword, 'i');
+    try {
+      console.log(req.body.limit);
+      console.log(req.body.skip);
+      let sortMethod = req.body.sortBy;
+
+      const post = await Post.find({
+        zipcode: req.user.neighborhood_zipCode,
+        post_title: reg,
+        post_type: post_type
+        // options: {
+        //   // limit: parseInt(req.query.limit),
+        //   // skip: parseInt(req.query.skip)
+        //   limit: 3,
+        //   skip: 3
+        // }
+      })
+        .populate('post_owner', 'user_name user_image')
+        .populate('participants', 'user_image')
+        .skip(parseInt(req.body.skip))
+        .limit(parseInt(req.body.limit))
+        .sort({ createdAt: sortMethod })
+        .sort({ review: sortMethod });
+      // await req.user.populate('posts').execpopulate();
+      console.log(post);
+      res.send(post);
+    } catch (e) {
+      console.log(e);
+      res.status(404).send(e);
+    }
+  });
+
+  //get post by user enter query keywords(all post from all neighborhoods)
+  // app.get('/api/posts/', auth, async (req, res) => {
+  //   let keyword = req.query.keyword;
+  //   const reg = new RegExp(keyword, 'i');
+  //   // keyword = keyword.toLowerCase()
+  //   console.log(reg);
+  //   try {
+  //     const post = await Post.find({ post_title: reg });
+  //     // await req.user.populate('posts').execpopulate();
+  //     console.log(post);
+  //     res.send(post);
+  //   } catch (e) {
+  //     console.log(e);
+  //     res.status(404).send(e);
+  //   }
+  // });
 };
