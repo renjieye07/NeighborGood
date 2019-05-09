@@ -9,7 +9,7 @@ import fetchPostsReducer from './fetchPostsReducer';
 import getUserReducer from './getUserReducer';
 
 import errorReducer from './errorReducer';
-import eventReducer from '../../features/event/eventReducer';
+import fetchEventsReducer from '../reducers/fetchEventsReducers';
 import saleReducer from '../../features/sale/saleReducer';
 import lostReducer from '../../features/lost/lostReducer';
 import inforReducer from '../../features/infor/inforReducer';
@@ -22,8 +22,8 @@ export default combineReducers({
   fetchMyPosts: fetchMyPostsReducer,
   user: getUserReducer,
   form: FormReducer,
-  //-----------------
-  events: eventReducer,
+  events: fetchEventsReducer,
+  //----------------
   sales: saleReducer,
   losts: lostReducer,
   form: FormReducer,

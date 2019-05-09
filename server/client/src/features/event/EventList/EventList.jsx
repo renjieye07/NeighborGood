@@ -1,21 +1,34 @@
 import React, { Component } from 'react';
-import EventListItem from './EventListItem';
+import { connect } from 'react-redux';
+import { fetchEvents } from '../../../actions/index';
+import PostItem from '../../post/postItem';
 
-class EventList extends Component {
+class PostList extends Component {
+  componentDidMount() {
+    this.props.fetchEvents();
+  }
+
+  renderPosts() {
+    return this.props.events.map(post => (
+      <PostItem key={post._id} post={post} />
+    ));
+  }
   render() {
-    const { events, deleteEvent } = this.props;
-    return (
-      <div>
-        {events.map(event => (
-          <EventListItem
-            key={event.id}
-            event={event}
-            deleteEvent={deleteEvent}
-          />
-        ))}
-      </div>
-    );
+    return <div>{this.renderPosts()}</div>;
   }
 }
 
-export default EventList;
+function mapStateToProps(state) {
+  return {
+    events: state.events
+  };
+}
+//ES6 style:
+// function mapStateToProps({ posts }){
+//     return { posts }
+// };
+
+export default connect(
+  mapStateToProps,
+  { fetchEvents }
+)(PostList);

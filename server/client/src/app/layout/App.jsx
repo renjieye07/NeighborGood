@@ -45,7 +45,7 @@ class App extends Component {
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/posts/new" component={PostForm} />
               <Route path="/posts/:id" component={PostDetailPage} />
-              <Route path="/events" component={EventDashboard} />
+              <Route path="/event" component={EventDashboard} />
               <Route path="/event/:id" component={EventDetailedPage} />
               <Route path="/createEvent" component={EventForm} />
               <Route path="/manageEvent/:id" component={EventForm} />

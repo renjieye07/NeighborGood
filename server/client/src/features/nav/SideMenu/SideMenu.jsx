@@ -25,7 +25,7 @@ export default class MenuExampleSubMenu extends Component {
             </Menu.Item>
             <Menu.Item
               as={NavLink}
-              to="/events"
+              to="/event"
               active={activeItem === 'Events'}
               onClick={this.handleItemClick}
             >

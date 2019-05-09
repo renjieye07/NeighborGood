@@ -5,7 +5,8 @@ import {
   GET_URL,
   FETCH_MY_POSTS,
   GET_USER,
-  FETCH_POSTS
+  FETCH_POSTS,
+  FETCH_EVENTS
 } from './types';
 const CLOUD_URL = 'https://api.cloudinary.com/v1_1/yihuali1993/image/upload';
 const PRESET = 'ndktqci4';
@@ -52,7 +53,7 @@ export const getUrl = file => async dispatch => {
     payload: res.data
   });
 };
-
+//get user's all posts
 export const fetchMyPosts = () => async dispatch => {
   const res = await axios.get('/api/myPosts');
 
@@ -61,7 +62,7 @@ export const fetchMyPosts = () => async dispatch => {
     payload: res.data
   });
 };
-
+//get all posts in the same neighborhood
 export const fetchPosts = () => async dispatch => {
   const res = await axios.get('/api/allPosts');
 
@@ -71,6 +72,21 @@ export const fetchPosts = () => async dispatch => {
   });
 };
 
+//get all events
+export const fetchEvents = () => async dispatch => {
+  const res = await axios.get('/api/allPosts', {
+    params: {
+      type: 'event'
+    }
+  });
+
+  dispatch({
+    type: FETCH_EVENTS,
+    payload: res.data
+  });
+};
+
+//get single user information
 export const getUser = id => async dispatch => {
   //console.log(id);
   const res = await axios.post('/users/getUser', id);
@@ -80,9 +96,3 @@ export const getUser = id => async dispatch => {
     payload: res.data
   });
 };
-// export function helloWorld(){
-//     return{
-//       type: HELLO_WORLD,
-//       payload: "hello world"
-//     }
-// }

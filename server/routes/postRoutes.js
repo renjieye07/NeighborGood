@@ -117,10 +117,13 @@ module.exports = app => {
   //                                 and for each next 10 post, front-end need use skip+10 to get the next 10)
   //
 
-  // need fix
   app.get('/api/allPosts', requireLogin, async (req, res) => {
     let keyword = req.query.keyword;
     let post_type = req.query.type; //(has to be those type('trade', 'info','event'))
+    console.log('------- query -------');
+    console.log(req.query);
+    console.log('------- params -------');
+    console.log(req.params);
     const reg = new RegExp(keyword, 'i');
     try {
       console.log(reg);

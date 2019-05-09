@@ -9,7 +9,7 @@ import {
   isRequired,
   hasLengthGreaterThan
 } from 'revalidate';
-import { createEvent, updateEvent } from '../eventActions';
+//import { createEvent, updateEvent } from '../eventActions';
 import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
 import SelectInput from '../../../app/common/form/SelectInput';
@@ -29,10 +29,10 @@ const mapState = (state, ownProps) => {
   };
 };
 
-const actions = {
-  createEvent,
-  updateEvent
-};
+// const actions = {
+//   createEvent,
+//   updateEvent
+// };
 
 const category = [
   { key: 'drinks', text: 'Drinks', value: 'drinks' },
@@ -143,10 +143,7 @@ class EventForm extends Component {
   }
 }
 
-export default connect(
-  mapState,
-  actions
-)(
+export default connect(mapState)(
   reduxForm({ form: 'eventForm', enableReinitialize: true, validate })(
     EventForm
   )

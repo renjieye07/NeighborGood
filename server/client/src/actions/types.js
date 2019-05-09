@@ -6,3 +6,4 @@ export const GET_URL = 'GET_URL';
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const FETCH_MY_POSTS = 'FETCH_MY_POSTS';
 export const GET_USER = 'GET_USER';
+export const FETCH_EVENTS = 'FETCH_EVENTS';
