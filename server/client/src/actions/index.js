@@ -4,15 +4,15 @@ import {
   CREATE_POST,
   GET_URL,
   FETCH_MY_POSTS,
-  GET_USER
+  GET_USER,
+  FETCH_POSTS
 } from './types';
 const CLOUD_URL = 'https://api.cloudinary.com/v1_1/yihuali1993/image/upload';
 const PRESET = 'ndktqci4';
-//action creator
+//get my info
 export const fetchUser = () => {
   return async function(dispatch) {
     const res = await axios.get('/api/current_user');
-    console.log(res);
     dispatch({
       type: FETCH_USER,
       payload: res.data
@@ -22,10 +22,10 @@ export const fetchUser = () => {
 
 //create post
 export const createPost = (values, history) => async dispatch => {
-  console.log(values);
+  //console.log(values);
   const res = await axios.post('/api/newPost', values);
-  history.push('/dashboard');
-  dispatch({
+  //history.push('/dashboard');
+  await dispatch({
     type: CREATE_POST,
     payload: res.data
   });
@@ -33,7 +33,7 @@ export const createPost = (values, history) => async dispatch => {
 
 //get image url
 export const getUrl = file => async dispatch => {
-  console.log(file);
+  //console.log(file);
   const formData = new FormData();
   formData.append('file', file);
   formData.append('upload_preset', PRESET);
@@ -46,14 +46,14 @@ export const getUrl = file => async dispatch => {
     },
     data: formData
   });
-  console.log(res);
+  //console.log(res);
   dispatch({
     type: GET_URL,
     payload: res.data
   });
 };
 
-export const getMyPosts = () => async dispatch => {
+export const fetchMyPosts = () => async dispatch => {
   const res = await axios.get('/api/myPosts');
 
   dispatch({
@@ -62,8 +62,18 @@ export const getMyPosts = () => async dispatch => {
   });
 };
 
+export const fetchPosts = () => async dispatch => {
+  const res = await axios.get('/api/allPosts');
+
+  dispatch({
+    type: FETCH_POSTS,
+    payload: res.data
+  });
+};
+
 export const getUser = id => async dispatch => {
-  const res = await axios.get('/users/getUser', id);
+  //console.log(id);
+  const res = await axios.post('/users/getUser', id);
 
   dispatch({
     type: GET_USER,

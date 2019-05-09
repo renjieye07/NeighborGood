@@ -8,11 +8,9 @@ import postField from '../../app/common/form/PostField';
 import { createPost, getUrl } from '../../actions/index';
 import { withRouter } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
-import axios from 'axios';
-import { CloudinaryContext, Transformation, Image } from 'cloudinary-react';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import PhotoUpload from '../../app/common/form/PhotoUpload';
+//import PhotoUpload from '../../app/common/form/PhotoUpload';
 
 class PostForm extends Component {
   constructor() {
@@ -190,10 +188,12 @@ function mapStateToProps(state) {
     getURL: state.getURL
   };
 }
+
 PostForm = connect(
   mapStateToProps,
   { createPost, getUrl }
 )(PostForm);
+
 export default reduxForm({
   validate,
   form: 'postForm'

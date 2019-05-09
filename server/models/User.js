@@ -5,81 +5,84 @@ const validator = require('validator');
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Post = require('./Post');
 
-const userSchema = mongoose.Schema({
-  googleID: String,
-  facebookID: String,
-  twitterID: String,
-  linkedinID: String,
-  email: {
-    type: String,
-    require: true,
-    unique: true,
-    trim: true,
-    lowercase: true,
-    validate(email) {
-      if (!validator.isEmail(email)) {
-        throw new Error('email is invalid');
+const userSchema = mongoose.Schema(
+  {
+    googleID: String,
+    facebookID: String,
+    twitterID: String,
+    linkedinID: String,
+    email: {
+      type: String,
+      require: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
+      validate(email) {
+        if (!validator.isEmail(email)) {
+          throw new Error('email is invalid');
+        }
       }
-    }
-  },
-  user_name: {
-    type: String,
-    require: true,
-    unique: true,
-    trim: true,
-    minlength: 2,
-    maxlength: 20
-  },
-  password: {
-    type: String
-    // require:true,
-  },
-  user_image: String,
+    },
+    user_name: {
+      type: String,
+      require: true,
+      unique: true,
+      trim: true,
+      minlength: 2,
+      maxlength: 20
+    },
+    password: {
+      type: String
+      // require:true,
+    },
+    user_image: String,
 
-  neighborhood_zipCode: {
-    type: String,
-    // require:true,
-    minlength: 5,
-    maxlength: 5,
-    trim: true,
-    default: '00000'
-  },
-  neighborhood_city: {
-    // type:mongoose.Schema.Types.ObjectId,
-    type: String,
-    // require:true,
-    minlength: 3,
-    maxlength: 100,
-    trim: true
-  },
-  user_imageURL: String,
+    neighborhood_zipCode: {
+      type: String,
+      // require:true,
+      minlength: 5,
+      maxlength: 5,
+      trim: true,
+      default: '00000'
+    },
+    neighborhood_city: {
+      // type:mongoose.Schema.Types.ObjectId,
+      type: String,
+      // require:true,
+      minlength: 3,
+      maxlength: 100,
+      trim: true
+    },
+    user_image: String,
 
-  gender: String,
+    gender: String,
 
-  registerDate: {
-    type: Date,
-    default: Date.now()
-  },
+    registerDate: {
+      type: Date,
+      default: Date.now()
+    },
 
-  posts: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Post'
-    }
-  ],
-
-  // lastLoginDate:Date,
-
-  tokens: [
-    {
-      token: {
-        type: String,
-        required: true
+    posts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
       }
-    }
-  ]
-});
+    ],
+    tokens: [
+      {
+        token: {
+          type: String,
+          required: true
+        }
+      }
+    ]
+  },
+  {
+    timestamps: true
+  }
+);
 
 //make the relationship between user and post
 // userSchema.virtual('posts', {
@@ -136,6 +139,13 @@ userSchema.pre('save', async function(next) {
     user.password = await bcrypt.hash(user.password, 8);
   }
 
+  next();
+});
+
+//del user posts when user is removed  not test yet!!
+userSchema.pre('remove', async function(next) {
+  const user = this;
+  await Post.deleteMany({ post_owner: user._id });
   next();
 });
 
