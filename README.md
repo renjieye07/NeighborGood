@@ -26,50 +26,41 @@ Folder Structure Conventions
 
     .
     ├── server                  # Project root
-    ├── docs                    # Documentation files (alternatively `doc`)
-    ├── src                     # Source files (alternatively `lib` or `app`)
-    ├── test                    # Automated tests (alternatively `spec` or `tests`)
-    ├── tools                   # Tools and utilities
-    ├── LICENSE
+    │   ├── client              # Front-end related directory
+    │   │   ├──public           # Public Files
+    │   │   ├──src              # Source Files of front-end
+    │   │   │   ├──actions      # React-redux actions handlers
+    │   │   │   ├──app          # React App root
+    │   │   │   ├──features     # Components
+    │   │   ├──package.json     # Packages dependency and scripts for front-end
+    │   ├── config              # configurations
+    │   ├── middleWare          # customize middlewares
+    │   ├── models              # Database schemas
+    │   ├── routes              # Rest APIs
+    │   ├── services            # Third party services apis
+    │   ├── index.js            # Main page
+    │   ├── package.json        # Packages dependency and scripts for server
     └── README.md
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* MongoDB(https://www.mongodb.com/) - Database
+* Express(https://www.express.com/) - Web application framework for Node.js
+* React(https://www.reactjs.com/) - JavaScript Library for building Front-end UI
+* Node.js(https://nodejs.org/en/) - JavaScript based back-end server building tool
+* NPM(https://npmjs.com/) - JavaScript packages management tool
+
+
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
 
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 ## Authors
 
-Team: Renjie Ye, shunyu, Yihua Li, Quang Tiep Du
+Renjie Ye, shunyu, Yihua Li, Quang Tiep Du
 
 ## License
 
@@ -77,6 +68,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+As a team, we would like to take a moment to anyone who has helped and supported us throughout the project. First of all, we would like to express our gratitude to professor Fabio Di Troia who has agreed to be our advisor. He always gave us the necessary time we needed during the meetings. He supported our ideas and provided us with important and helpful feedback. Last but not least, we would like to thank our friends, classmates, and family members who provided us with support.
+
